@@ -6,8 +6,8 @@ import * as express from 'express';
 const transportador = nodemailer.createTransport({
     service : 'gmail',
     auth: { 
-        user : 'miguelangel.delgadomarquez@gmail.com',
-        pass: 'MrMiguelex75'
+        user : 'miguelexd@gmail.com',
+        pass: ''
     }
 });
 
@@ -25,7 +25,7 @@ endPointExpress.post('*', async (req, res)=>{
         const _mensaje = req.body.mensaje;
        
         const emailOpciones = {
-            from : 'vaxi.drez@gmail.com',
+            from : 'miguelexd@gmail.com',
             to: _email,
             subject : _titulo,
             html: '<p>' + _mensaje + '</p>'
