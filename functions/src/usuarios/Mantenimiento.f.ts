@@ -3,6 +3,7 @@ import * as cors from 'cors';
 import * as express from 'express';
 import * as admin from 'firebase-admin';
 import * as cookieParser from 'cookie-parser';
+import {validaExisteToken} from '../seguridad/validaSesion';
 
 if(!admin.apps.length){
     admin.initializeApp();
@@ -16,6 +17,11 @@ const corsVal = cors({origin:true});
 endPointExpress.options('*',corsVal);
 endPointExpress.use(corsVal);
 endPointExpress.use(cookieParser());
+
+const roles  = ["ADMIN", "OPERADOR"];
+endPointExpress.use(validaExisteToken(roles));
+
+
 
 endPointExpress.post('*', async (req: any, res: any)=>{
 
@@ -31,7 +37,7 @@ endPointExpress.post('*', async (req: any, res: any)=>{
         .set({roles: _roles}, {merge: true});
     
         res.status(200);
-        res.send({status:"success"})
+        res.send({status:"success"});
 
     }catch(e){
         res.status(403);
@@ -43,3 +49,5 @@ endPointExpress.post('*', async (req: any, res: any)=>{
 exports = module.exports = functions.https.onRequest((request, response)=>{
     return endPointExpress(request, response);
 })
+
+
